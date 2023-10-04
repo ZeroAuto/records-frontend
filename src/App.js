@@ -1,7 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 
 function App() {
+  const [records, setRecords] = useState([])
+
+  useEffect(() => {
+    getRecords();
+  }, []);
+
+  const getRecords = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/record');
+      setRecords(response.data);
+    } catch {
+      console.log('failed');
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
