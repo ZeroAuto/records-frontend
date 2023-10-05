@@ -1,26 +1,25 @@
 import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import { fetchRecords } from './utils/server.js'
 import React, {useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [records, setRecords] = useState([])
+  // const [loginModalShown, setShowLoginModal] = useState(false);
+  // const showLoginModal = () => setShowLoginModal(true);
+  // const hideLoginModal = () => setShowLoginModal(false);
 
   useEffect(() => {
-    getRecords();
+    loadRecords();
   }, []);
 
-  const getRecords = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:5000/record');
-      setRecords(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+  const loadRecords = async () => {
+    const records = await fetchRecords();
+    setRecords(records);
   }
 
   return (
