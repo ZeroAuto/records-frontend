@@ -1,25 +1,20 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import { fetchRecords } from './utils/server.js'
-import React, {useEffect, useState} from 'react';
+
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
+
 import LoginModal from './components/LoginModal.js';
+import RecordsTable from './components/RecordsTable.js';
+
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
-  const [records, setRecords] = useState([])
+const App = () => {
   const [loginModalShown, setShowLoginModal] = useState(false);
-
-  useEffect(() => {
-    loadRecords();
-  }, []);
-
-  const loadRecords = async () => {
-    const records = await fetchRecords();
-    setRecords(records);
-  }
 
   return (
     <div className="App">
@@ -44,6 +39,13 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Container fluid>
+        <Row>
+          <Col>
+            <RecordsTable />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
