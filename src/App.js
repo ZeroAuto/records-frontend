@@ -23,9 +23,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <LoginModal show={loginModalShown}  onClose={() => { */}
-      {/*   setShowLoginModal(false) */}
-      {/* }}/> */}
       <LoginModal
         show={loginModalShown}
         onHandleClose={() => setShowLoginModal(false)}
