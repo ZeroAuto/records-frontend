@@ -39,8 +39,8 @@ const App = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container fluid>
-        <Row>
+      <Container>
+        <Row className="justify-content-center">
           <Col>
             <RecordsTable />
           </Col>

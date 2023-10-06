@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchRecords } from '../utils/server.js';
-import Spinner from 'react-bootstrap/Spinner';
-import Table from 'react-bootstrap/Table';
+import DataTable from './DataTable.js';
 
 const RecordsTable = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +10,29 @@ const RecordsTable = () => {
     loadRecords();
   }, []);
 
+  const tableHeaders = [
+    {
+      name: 'artist_name',
+      label: 'Artist',
+      sortable: true,
+    },
+    {
+      name: 'name',
+      label: 'Name',
+      sortable: true,
+    },
+    {
+      name: 'year',
+      label: 'Year',
+      sortable: true,
+    },
+    {
+      name: 'format',
+      label: 'Format',
+      sortable: true,
+    },
+  ]
+
   const loadRecords = async () => {
     setLoading(true);
     const records = await fetchRecords();
@@ -19,15 +41,11 @@ const RecordsTable = () => {
   }
 
   return (
-    <div>
-      {loading ?
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-        :
-        null
-      }
-    </div>
+    <DataTable
+      data={records}
+      loading={loading}
+      tableHeaders={tableHeaders}
+    />
   )
 };
 
