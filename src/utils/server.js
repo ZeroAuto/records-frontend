@@ -8,4 +8,18 @@ export const fetchRecords = async () => {
     console.log(e);
     return false;
   }
-}
+};
+
+export const login = async (username, password) => {
+  try {
+    const response = await axios.post('127.0.0.1:5000/login', {
+      username,
+      password,
+    });
+    console.table(response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
