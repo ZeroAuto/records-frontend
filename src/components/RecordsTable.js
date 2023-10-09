@@ -18,7 +18,7 @@ const RecordsTable = () => {
     },
     {
       name: 'name',
-      label: 'Name',
+      label: 'Album',
       sortable: true,
     },
     {

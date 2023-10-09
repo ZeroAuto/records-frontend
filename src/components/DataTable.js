@@ -11,7 +11,24 @@ const DataTable = ({data, loading, tableHeaders}) => {
           <span className="visually-hidden">Loading...</span>
         </Spinner>
         :
-        null
+        <Table>
+          <thead>
+            <tr>
+              {tableHeaders.map((header, index) =>
+                <th key={index}>{header.label}</th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((dataItem, index) =>
+              <tr key={`body-${index}`}>
+                {tableHeaders.map((header) =>
+                  <td key={`${header.name}-${index}`}>{dataItem[header.name]}</td>
+                )}
+              </tr>
+            )}
+          </tbody>
+        </Table>
       }
     </div>
   )
