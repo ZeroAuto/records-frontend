@@ -1,9 +1,38 @@
+import React, { useState } from 'react';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function Example({show, onHandleClose}) {
-  const handleClose = () => onHandleClose(false);
+import { login } from '../utils/server.js';
+
+function LoginModal({show, onHandleClose}) {
+  const [formState, setUserInfo] = useState({
+    username: '',
+    password: '',
+  });
+  const handleLogin = async () => {
+    if (login(formState.username, formState.password)) {
+      console.log('login successful');
+      resetState();
+      onHandleClose(false);
+    }
+  };
+  const handleClose = () =>{
+    resetState();
+    onHandleClose(false);
+  }
+  const handleFormChange = (e) => {
+    const {id, value} = e.target;
+    setUserInfo(prevState => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+  const resetState = () => setUserInfo({
+    username: '',
+    password: '',
+  })
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -12,22 +41,25 @@ function Example({show, onHandleClose}) {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Group className="mb-3">
             <Form.Label>Email or Username</Form.Label>
             <Form.Control
               type="email"
               placeholder="name@example.com"
+              id="username"
+              value={formState.username}
+              onChange={handleFormChange}
               autoFocus
             />
           </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="exampleForm.ControlTextarea1"
-          >
+          <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="password here"
+              id="password"
+              value={formState.password}
+              onChange={handleFormChange}
               autoFocus
             />
           </Form.Group>
@@ -37,7 +69,7 @@ function Example({show, onHandleClose}) {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button variant="primary" onClick={handleLogin}>
           Login
         </Button>
       </Modal.Footer>
@@ -45,4 +77,4 @@ function Example({show, onHandleClose}) {
   );
 }
 
-export default Example;
+export default LoginModal;
