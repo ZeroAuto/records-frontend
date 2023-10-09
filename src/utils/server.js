@@ -12,7 +12,7 @@ export const fetchRecords = async () => {
 
 export const login = async (username, password) => {
   try {
-    const response = await axios.post('127.0.0.1:5000/login', {
+    const response = await axios.post('http://127.0.0.1:5000/login', {
       username,
       password,
     });
