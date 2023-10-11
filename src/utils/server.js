@@ -28,8 +28,17 @@ export const login = async (username, password) => {
   }
 };
 
-export const logout = () => {
-  localStorage.removeItem('user');
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/logout`);
+    if (response.status === '200') {
+      localStorage.removeItem('user');
+    }
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
 };
 
 export const signUp = async (username, email, password) => {
