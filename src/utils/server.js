@@ -4,7 +4,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 export const fetchRecords = async () => {
   try {
-    const response = await axios.get(API_URL + '/record');
+    const response = await axios.get(`${API_URL}/record`);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -14,7 +14,7 @@ export const fetchRecords = async () => {
 
 export const login = async (username, password) => {
   try {
-    const response = await axios.post('http://127.0.0.1:5000/login', {
+    const response = await axios.post(`${API_URL}/login`, {
       username,
       password,
     });
@@ -34,7 +34,7 @@ export const logout = () => {
 
 export const signUp = async (username, email, password) => {
   try {
-    const response = await axios.post('http://127.0.0.1:5000/signup', {
+    const response = await axios.post(`${API_URL}/signup`, {
       username,
       email,
       password,
