@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const fetchRecords = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:5000/record');
+    const response = await axios.get(API_URL + '/record');
     return response.data;
   } catch (e) {
     console.log(e);
