@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -12,8 +12,16 @@ import RecordsTable from './components/RecordsTable.js';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { getCurrentUser } from './utils/auth.js';
+
 const App = () => {
   const [loginModalShown, setShowLoginModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setCurrentUser(user);
+  }, []);
 
   return (
     <div className="App">
@@ -26,15 +34,23 @@ const App = () => {
           <Navbar.Brand href="#home">My Record App</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Link
-              href="#"
-              onClick={() => {
-                setShowLoginModal(true)
-              }}
-            >Sign In</Nav.Link>
-            {/* <Navbar.Text> */}
-            {/*   Signed in as: <a href="#login">Mark Otto</a> */}
-            {/* </Navbar.Text> */}
+            {currentUser ?
+              <Fragment>
+                <Navbar.Text>
+                  Signed in as: <b>{currentUser.name}</b>
+                </Navbar.Text>
+                <Nav.Link>
+                  Logout
+                </Nav.Link>
+              </Fragment>
+              :
+              <Nav.Link
+                href="#"
+                onClick={() => {
+                  setShowLoginModal(true)
+                }}
+              >Sign In</Nav.Link>
+            }
           </Navbar.Collapse>
         </Container>
       </Navbar>
