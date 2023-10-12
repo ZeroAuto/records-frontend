@@ -36,7 +36,7 @@ const App = () => {
                   Signed in as: <b>{currentUser.name}</b>
                 </Navbar.Text>
                 <Nav.Link onClick={async () => {
-                  await logout();
+                  await logout(currentUser);
                   setCurrentUser();
                 }}>
                   Logout

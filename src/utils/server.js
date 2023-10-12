@@ -25,9 +25,10 @@ export const login = async (username, password) => {
   }
 };
 
-export const logout = async () => {
+export const logout = async (currentUser) => {
+  console.table(getHeaders(currentUser));
   try {
-    const response = await axios.post(`${API_URL}/logout`);
+    const response = await axios.post(`${API_URL}/logout`, { headers: getHeaders(currentUser)});
     return response.data;
   } catch (e) {
     console.log(e);
@@ -46,5 +47,13 @@ export const signUp = async (username, email, password) => {
   } catch (e) {
     console.log(e);
     return false;
+  }
+};
+
+const getHeaders = (currentUser) => {
+  if (currentUser && currentUser.access_token) {
+    return { Authorization: `Bearer ${currentUser.access_token}`};
+  } else {
+    return {};
   }
 };
