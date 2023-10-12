@@ -18,9 +18,6 @@ export const login = async (username, password) => {
       username,
       password,
     });
-    if (response.data.access_token) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-    }
     return response.data;
   } catch (e) {
     console.log(e);
@@ -31,9 +28,6 @@ export const login = async (username, password) => {
 export const logout = async () => {
   try {
     const response = await axios.post(`${API_URL}/logout`);
-    if (response.status === '200') {
-      localStorage.removeItem('user');
-    }
     return response.data;
   } catch (e) {
     console.log(e);

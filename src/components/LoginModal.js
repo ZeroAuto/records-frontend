@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
+import { AppContext } from './AppContext.js'
+
 import { login } from '../utils/server.js';
 
 function LoginModal({show, onHandleClose}) {
+  const [currentUser, setCurrentUser] = useContext(AppContext);
   const [formState, setUserInfo] = useState({
     username: '',
     password: '',
   });
   const handleLogin = async () => {
-    if (login(formState.username, formState.password)) {
+    const user = await login(formState.username, formState.password);
+    if (user) {
       console.log('login successful');
+      setCurrentUser(user);
       resetState();
-      onHandleClose(false);
+      onHandleClose();
     }
   };
   const handleClose = () =>{

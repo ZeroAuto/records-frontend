@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -6,22 +6,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 
+import { AppContext } from './components/AppContext.js';
+import { logout } from './utils/server.js';
+
 import LoginModal from './components/LoginModal.js';
 import RecordsTable from './components/RecordsTable.js';
 
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { getCurrentUser } from './utils/auth.js';
-
 const App = () => {
   const [loginModalShown, setShowLoginModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
-
-  useEffect(() => {
-    const user = getCurrentUser();
-    setCurrentUser(user);
-  }, []);
+  const [currentUser, setCurrentUser] = useContext(AppContext);
 
   return (
     <div className="App">
@@ -39,7 +35,10 @@ const App = () => {
                 <Navbar.Text>
                   Signed in as: <b>{currentUser.name}</b>
                 </Navbar.Text>
-                <Nav.Link>
+                <Nav.Link onClick={async () => {
+                  await logout();
+                  setCurrentUser();
+                }}>
                   Logout
                 </Nav.Link>
               </Fragment>
