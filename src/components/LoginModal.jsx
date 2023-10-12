@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-import { AppContext } from './AppContext.js'
+import { AppContext } from './AppContext'
 
 import { login } from '../utils/server.js';
 

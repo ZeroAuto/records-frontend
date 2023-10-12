@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -6,11 +6,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Row from 'react-bootstrap/Row';
 
-import { AppContext } from './components/AppContext.js';
+import { AppContext } from './components/AppContext';
 import { logout } from './utils/server.js';
 
-import LoginModal from './components/LoginModal.js';
-import RecordsTable from './components/RecordsTable.js';
+import LoginModal from './components/LoginModal';
+import RecordsTable from './components/RecordsTable';
 
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";

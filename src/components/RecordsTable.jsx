@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchRecords } from '../utils/server.js';
-import DataTable from './DataTable.js';
+import DataTable from './DataTable';
 
 const RecordsTable = () => {
   const [loading, setLoading] = useState(false);
