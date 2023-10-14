@@ -28,13 +28,27 @@ export const login = async (username, password) => {
 export const logout = async (currentUser) => {
   console.table(getHeaders(currentUser));
   try {
-    const response = await axios.post(`${API_URL}/logout`, { headers: getHeaders(currentUser)});
+    const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders(currentUser)});
     return response.data;
   } catch (e) {
     console.log(e);
     return false;
   }
 };
+
+export const recordPost = async (currentUser, recordData) => {
+  try {
+    const response = axios.post(
+      `${API_URL}/record`,
+      {...recordData},
+      {headers: getHeaders(currentUser)},
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
 
 export const signUp = async (username, email, password) => {
   try {

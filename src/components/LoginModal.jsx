@@ -9,11 +9,12 @@ import { AppContext } from './AppContext'
 import { login } from '../utils/server.js';
 
 function LoginModal({show, onHandleClose}) {
-  const [currentUser, setCurrentUser] = useContext(AppContext);
-  const [formState, setUserInfo] = useState({
+  const initialState = Object.freeze({
     username: '',
     password: '',
-  });
+  })
+  const [currentUser, setCurrentUser] = useContext(AppContext);
+  const [formState, setUserInfo] = useState(initialState);
   const handleLogin = async () => {
     const user = await login(formState.username, formState.password);
     if (user) {
@@ -34,10 +35,7 @@ function LoginModal({show, onHandleClose}) {
       [id]: value,
     }));
   };
-  const resetState = () => setUserInfo({
-    username: '',
-    password: '',
-  })
+  const resetState = () => setUserInfo(initialState);
 
   return (
     <Modal show={show} onHide={handleClose}>
