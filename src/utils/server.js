@@ -38,7 +38,7 @@ export const logout = async (currentUser) => {
 
 export const recordPost = async (currentUser, recordData) => {
   try {
-    const response = axios.post(
+    const response = await axios.post(
       `${API_URL}/record`,
       {...recordData},
       {headers: getHeaders(currentUser)},

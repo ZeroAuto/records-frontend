@@ -19,6 +19,7 @@ const RecordUpdateMopdal = ({show, onHandleClose}) => {
   const currentUser = useContext(AppContext);
   const handleSubmit = async () => {
     const record = await recordPost(currentUser, formState);
+    console.table(record);
     if (record) {
       console.log('record successfully created');
       resetState();
@@ -97,7 +98,7 @@ const RecordUpdateMopdal = ({show, onHandleClose}) => {
         <Button variant="primary" onClick={() => {
           handleSubmit();
         }}>
-          Login
+          Submit
         </Button>
       </Modal.Footer>
     </Modal>
