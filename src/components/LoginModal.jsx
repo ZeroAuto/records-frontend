@@ -8,12 +8,12 @@ import { AppContext } from './AppContext'
 
 import { login } from '../utils/server.js';
 
-function LoginModal({show, onHandleClose}) {
+const LoginModal = ({show, onHandleClose}) => {
   const initialState = Object.freeze({
     username: '',
     password: '',
   })
-  const [currentUser, setCurrentUser] = useContext(AppContext);
+  const [, setCurrentUser] = useContext(AppContext);
   const [formState, setUserInfo] = useState(initialState);
   const handleLogin = async () => {
     const user = await login(formState.username, formState.password);

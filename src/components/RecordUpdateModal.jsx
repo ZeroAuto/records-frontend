@@ -16,10 +16,9 @@ const RecordUpdateMopdal = ({show, onHandleClose}) => {
     format: '',
   })
   const [formState, setRecordInfo] = useState(initialState);
-  const currentUser = useContext(AppContext);
+  const [currentUser] = useContext(AppContext);
   const handleSubmit = async () => {
     const record = await recordPost(currentUser, formState);
-    console.table(record);
     if (record) {
       console.log('record successfully created');
       resetState();
