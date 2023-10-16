@@ -26,7 +26,6 @@ export const login = async (username, password) => {
 };
 
 export const logout = async (currentUser) => {
-  console.table(getHeaders(currentUser));
   try {
     const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders(currentUser)});
     return response.data;
@@ -38,7 +37,6 @@ export const logout = async (currentUser) => {
 
 export const recordPost = async (currentUser, recordData) => {
   try {
-    console.table(getHeaders(currentUser));
     const response = await axios.post(
       `${API_URL}/record`,
       { ...recordData },
