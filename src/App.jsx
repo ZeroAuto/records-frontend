@@ -26,9 +26,9 @@ const App = () => {
         onHandleClose={() => setShowRecordModal(false)}
       />
       <TopNav />
-      <Stack>
+      <Stack className="d-flex">
         {currentUser ?
-          <Container className="justify-content-end">
+          <Container className="d-flex justify-content-end p-2">
             <Button
               variant="primary"
               onClick={() => {
