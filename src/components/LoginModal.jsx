@@ -19,6 +19,7 @@ const LoginModal = ({show, onHandleClose}) => {
     const user = await login(formState.username, formState.password);
     if (user) {
       console.log('login successful');
+      localStorage.setItem('user', JSON.stringify(user));
       setCurrentUser(user);
       resetState();
       onHandleClose();

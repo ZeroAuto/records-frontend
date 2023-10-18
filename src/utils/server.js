@@ -28,6 +28,7 @@ export const login = async (username, password) => {
 export const logout = async (currentUser) => {
   try {
     const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders(currentUser)});
+    localStorage.removeItem('user');
     return response.data;
   } catch (e) {
     console.log(e);

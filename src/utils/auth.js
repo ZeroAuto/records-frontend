@@ -1,7 +1,5 @@
-export const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('user'));
-};
+export const addUserToLocalStorage = user => {};
 
-export const logoutUser = () => {
-  localStorage.removeItem('user');
-};
+export const removeUserFromLocalStorage = user => {};
+
+export const getUserFromLocalStorage = () => {};
