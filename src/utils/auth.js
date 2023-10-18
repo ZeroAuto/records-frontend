@@ -1,5 +1,11 @@
-export const addUserToLocalStorage = user => {};
+export const addUserToLocalStore = user => {
+  sessionStorage.setItem('user', JSON.stringify(user));
+};
 
-export const removeUserFromLocalStorage = user => {};
+export const removeUserFromLocalStore = () => {
+  sessionStorage.removeItem('user');
+};
 
-export const getUserFromLocalStorage = () => {};
+export const getUserFromLocalStore = () => {
+  return sessionStorage.getItem('user');
+};

@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { AppContext } from './AppContext'
 
+import { addUserToLocalStore } from '../utils/auth.js';
 import { login } from '../utils/server.js';
 
 const LoginModal = ({show, onHandleClose}) => {
@@ -19,7 +20,7 @@ const LoginModal = ({show, onHandleClose}) => {
     const user = await login(formState.username, formState.password);
     if (user) {
       console.log('login successful');
-      localStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('user', JSON.stringify(user));
       setCurrentUser(user);
       resetState();
       onHandleClose();

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { removeUserFromLocalStore } from './auth.js';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const fetchRecords = async () => {
@@ -28,7 +30,7 @@ export const login = async (username, password) => {
 export const logout = async (currentUser) => {
   try {
     const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders(currentUser)});
-    localStorage.removeItem('user');
+    removeUserFromLocalStore();
     return response.data;
   } catch (e) {
     console.log(e);
