@@ -7,5 +7,5 @@ export const removeUserFromLocalStore = () => {
 };
 
 export const getUserFromLocalStore = () => {
-  return sessionStorage.getItem('user');
+  return JSON.parse(sessionStorage.getItem('user'));
 };
