@@ -14,6 +14,16 @@ export const fetchRecords = async () => {
   }
 };
 
+export const fetchUserRecords = async (user_id) => {
+  try {
+    const response = await axios.get(`${API_URL}/record/user/${user_id}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
 export const login = async (username, password) => {
   try {
     const response = await axios.post(`${API_URL}/login`, {
