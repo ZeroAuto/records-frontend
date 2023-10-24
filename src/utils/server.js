@@ -14,9 +14,16 @@ export const fetchRecords = async () => {
   }
 };
 
-export const fetchUserRecords = async (user_id) => {
+export const fetchUserRecords = async (currentUser) => {
   try {
-    const response = await axios.get(`${API_URL}/record/user/${user_id}`);
+    // const response = await axios.get(
+    //   `${API_URL}/record/user`,
+    //   { headers: getHeaders(currentUser) },
+    // );
+    const response = await axios.get(
+      `${API_URL}/record/user/${currentUser.id}`,
+      { headers: getHeaders(currentUser) },
+    );
     return response.data;
   } catch (e) {
     console.log(e);

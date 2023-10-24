@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { fetchRecords } from '../utils/server.js';
+import React, { useContext, useEffect, useState } from 'react';
+import { fetchRecords, fetchUserRecords } from '../utils/server.js';
+import { AppContext } from './AppContext';
 import DataTable from './DataTable';
 
 const RecordsTable = () => {
   const [loading, setLoading] = useState(false);
   const [records, setRecords] = useState([]);
+  const [currentUser] = useContext(AppContext);
 
   useEffect(() => {
     loadRecords();
-  }, []);
+  }, [currentUser]);
 
   const tableHeaders = [
     {
@@ -35,7 +37,13 @@ const RecordsTable = () => {
 
   const loadRecords = async () => {
     setLoading(true);
-    const records = await fetchRecords();
+    // const records = await fetchRecords();
+    let records;
+    if (currentUser) {
+      records = await fetchUserRecords(currentUser);
+    } else {
+      records = await fetchRecords();
+    }
     setRecords(records);
     setLoading(false);
   }
