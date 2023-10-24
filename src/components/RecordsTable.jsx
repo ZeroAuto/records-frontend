@@ -37,7 +37,6 @@ const RecordsTable = () => {
 
   const loadRecords = async () => {
     setLoading(true);
-    // const records = await fetchRecords();
     let records;
     if (currentUser) {
       records = await fetchUserRecords(currentUser);
