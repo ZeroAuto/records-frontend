@@ -8,13 +8,13 @@ import { AppContext } from './AppContext'
 
 import { recordPost } from '../utils/server.js';
 
-const RecordUpdateMopdal = ({show, onHandleClose}) => {
+const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   const initialState = Object.freeze({
     name: '',
     artist: '',
     year: '',
     format: '',
-  })
+  });
   const [formState, setRecordInfo] = useState(initialState);
   const [currentUser] = useContext(AppContext);
   const handleSubmit = async () => {
@@ -97,7 +97,7 @@ const RecordUpdateMopdal = ({show, onHandleClose}) => {
         <Button variant="primary" onClick={() => {
           handleSubmit();
         }}>
-          Submit
+          { isEdit ? 'Update' : 'Add' }
         </Button>
       </Modal.Footer>
     </Modal>
