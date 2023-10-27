@@ -3,7 +3,7 @@ import { fetchRecords, fetchUserRecords } from '../utils/server.js';
 import { AppContext } from './AppContext';
 import DataTable from './DataTable';
 
-const RecordsTable = () => {
+const RecordsTable = ({searchText = ''}) => {
   const [loading, setLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [currentUser] = useContext(AppContext);
@@ -11,6 +11,14 @@ const RecordsTable = () => {
   useEffect(() => {
     loadRecords();
   }, [currentUser]);
+
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      loadRecords();
+      console.log(searchText);
+    }, 500);
+    return () => clearTimeout(getData);
+  }, [searchText]);
 
   const tableHeaders = [
     {
@@ -39,9 +47,9 @@ const RecordsTable = () => {
     setLoading(true);
     let records;
     if (currentUser) {
-      records = await fetchUserRecords(currentUser);
+      records = await fetchUserRecords(currentUser, searchText);
     } else {
-      records = await fetchRecords();
+      records = await fetchRecords(searchText);
     }
     setRecords(records);
     setLoading(false);

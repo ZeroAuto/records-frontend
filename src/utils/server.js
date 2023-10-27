@@ -4,21 +4,11 @@ import { removeUserFromLocalStore } from './auth.js';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const fetchRecords = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/record`);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-};
-
-export const fetchUserRecords = async (currentUser) => {
+export const fetchRecords = async (searchText = '') => {
   try {
     const response = await axios.get(
-      `${API_URL}/record/user`,
-      { headers: getHeaders(currentUser) },
+      `${API_URL}/record`,
+      { params: { text: searchText } },
     );
     return response.data;
   } catch (e) {
@@ -26,6 +16,38 @@ export const fetchUserRecords = async (currentUser) => {
     return false;
   }
 };
+
+export const fetchUserRecords = async (currentUser, searchText) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/record/user`,
+      {
+        headers: getHeaders(currentUser),
+        params: { text: searchText },
+      },
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const findRecord = async (currentUser, recordData) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/record/find`,
+      {
+        headers: currentUser,
+        params: { ...recordData },
+      },
+    )
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
 
 export const login = async (username, password) => {
   try {

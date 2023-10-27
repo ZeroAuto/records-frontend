@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 
@@ -16,8 +17,13 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
+  const [searchText, setSearchText] = useState('');
   const [recordModalShown, setShowRecordModal] = useState(false);
   const [currentUser] = useContext(AppContext);
+  const handleSearchTextChange = e => {
+    const {value} = e.target;
+    setSearchText(value);
+  }
 
   return (
     <div className="App">
@@ -27,8 +33,20 @@ const App = () => {
       />
       <TopNav />
       <Stack className="d-flex">
-        {currentUser ?
-          <Container className="d-flex justify-content-end p-2">
+        <Container className="d-flex justify-content-between p-2">
+          <Row>
+            <Col>
+              <Form.Control
+                type="seach"
+                placeholder="artist or album title"
+                id="search-text"
+                value={searchText}
+                onChange={handleSearchTextChange}
+                autoFocus
+              />
+            </Col>
+          </Row>
+          {currentUser ?
             <Button
               variant="primary"
               onClick={() => {
@@ -37,14 +55,14 @@ const App = () => {
             >
               Add Record
             </Button>
-          </Container>
-          :
-          null
-        }
+            :
+            null
+          }
+        </Container>
         <Container>
           <Row className="justify-content-center">
             <Col>
-              <RecordsTable />
+              <RecordsTable searchText={searchText} />
             </Col>
           </Row>
         </Container>
