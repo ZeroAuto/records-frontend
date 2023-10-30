@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { AppContext } from './AppContext'
 
-import { recordPost } from '../utils/server.js';
+import { findRecord, recordPost } from '../utils/server.js';
 
 const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   const initialState = Object.freeze({
@@ -17,6 +17,24 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   });
   const [formState, setRecordInfo] = useState(initialState);
   const [currentUser] = useContext(AppContext);
+
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      setSelectedRecord();
+    }, 500);
+    return () => clearTimeout(getData);
+  }, [formState])
+
+  const setSelectedRecord = async () => {
+    if (formState.name && formState.artist) {
+      const recordData = {
+        name: formState.name,
+        artist: formState.artist,
+      };
+      const record = await findRecord(currentUser, recordData);
+      console.table(record);
+    }
+  }
   const handleSubmit = async () => {
     const record = await recordPost(currentUser, formState);
     if (record) {
