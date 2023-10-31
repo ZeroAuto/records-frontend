@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -16,22 +17,24 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
     format: '',
   });
   const [formState, setRecordInfo] = useState(initialState);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const [currentUser] = useContext(AppContext);
 
   useEffect(() => {
     const getData = setTimeout(() => {
-      setSelectedRecord();
+      fetchSelectedRecord();
     }, 500);
     return () => clearTimeout(getData);
-  }, [formState])
+  }, [formState]);
 
-  const setSelectedRecord = async () => {
+  const fetchSelectedRecord = async () => {
     if (formState.name && formState.artist) {
       const recordData = {
         name: formState.name,
         artist: formState.artist,
       };
       const record = await findRecord(currentUser, recordData);
+      setSelectedRecord(record);
       console.table(record);
     }
   }
@@ -54,13 +57,27 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
       [id]: value,
     }));
   };
-  const resetState = () => setRecordInfo(initialState);
+  const resetState = () => {
+    setRecordInfo(initialState);
+    setSelectedRecord(null);
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {selectedRecord ?
+          <Alert variant="success">
+            This record already exists in our database
+            <Alert.Link>
+              add to your wishlist?
+            </Alert.Link>
+          </Alert>
+          :
+          null
+        }
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Record Name</Form.Label>

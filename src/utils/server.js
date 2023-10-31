@@ -4,6 +4,20 @@ import { removeUserFromLocalStore } from './auth.js';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+export const addUserRecord = async (currentUser, recordId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/record/add/${recordId}`,
+      {},
+      { headers: getHeaders(currentUser) },
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
 export const fetchRecords = async (searchText = '') => {
   try {
     const response = await axios.get(
