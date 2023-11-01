@@ -9,16 +9,12 @@ const RecordsTable = ({searchText = ''}) => {
   const [currentUser] = useContext(AppContext);
 
   useEffect(() => {
-    loadRecords();
-  }, [currentUser]);
-
-  useEffect(() => {
     const getData = setTimeout(() => {
       loadRecords();
       console.log(searchText);
     }, 500);
     return () => clearTimeout(getData);
-  }, [searchText]);
+  }, [searchText, currentUser]);
 
   const tableHeaders = [
     {
@@ -46,6 +42,7 @@ const RecordsTable = ({searchText = ''}) => {
   const loadRecords = async () => {
     setLoading(true);
     let records;
+    console.table(currentUser);
     if (currentUser) {
       records = await fetchUserRecords(currentUser, searchText);
     } else {
