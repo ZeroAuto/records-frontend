@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { AppContext } from './AppContext'
 
-import { findRecord, recordPost } from '../utils/server.js';
+import { addUserRecord, findRecord, recordPost } from '../utils/server.js';
 
 const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   const initialState = Object.freeze({
@@ -17,7 +17,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
     format: '',
   });
   const [formState, setRecordInfo] = useState(initialState);
-  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [selectedRecord, setSelectedRecord] = useState({});
   const [currentUser] = useContext(AppContext);
 
   useEffect(() => {
@@ -38,17 +38,29 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
       console.table(record);
     }
   }
+
+  const closeModal = () => {
+    resetState();
+    onHandleClose(false);
+  }
+  const handleAddRecord = async () => {
+    try {
+      await addUserRecord(currentUser, selectedRecord.id);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      closeModal();
+    }
+  };
   const handleSubmit = async () => {
     const record = await recordPost(currentUser, formState);
     if (record) {
       console.log('record successfully created');
-      resetState();
-      onHandleClose(false);
+      closeModal();
     }
   };
   const handleClose = () =>{
-    resetState();
-    onHandleClose(false);
+    closeModal();
   }
   const handleFormChange = (e) => {
     const {id, value} = e.target;
@@ -59,7 +71,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   };
   const resetState = () => {
     setRecordInfo(initialState);
-    setSelectedRecord(null);
+    setSelectedRecord({});
   };
 
   return (
@@ -68,12 +80,15 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {selectedRecord ?
-          <Alert variant="success">
-            This record already exists in our database
-            <Alert.Link>
-              add to your wishlist?
-            </Alert.Link>
+        {Object.keys(selectedRecord).length > 0 ?
+          <Alert
+            // onClick={() => {
+            //   handleAddRecord();
+            // }}
+            onClick={handleAddRecord}
+            variant="success"
+          >
+            This record already exists in our database <Alert.Link>add to your wishlist?</Alert.Link>
           </Alert>
           :
           null
