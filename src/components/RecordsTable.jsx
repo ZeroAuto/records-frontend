@@ -11,7 +11,6 @@ const RecordsTable = ({searchText = ''}) => {
   useEffect(() => {
     const getData = setTimeout(() => {
       loadRecords();
-      console.log(searchText);
     }, 500);
     return () => clearTimeout(getData);
   }, [searchText, currentUser]);
@@ -42,9 +41,8 @@ const RecordsTable = ({searchText = ''}) => {
   const loadRecords = async () => {
     setLoading(true);
     let records;
-    console.table(currentUser);
     if (currentUser) {
-      records = await fetchUserRecords(currentUser, searchText);
+      records = await fetchUserRecords(searchText);
     } else {
       records = await fetchRecords(searchText);
     }

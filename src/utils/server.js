@@ -4,12 +4,47 @@ import { removeUserFromLocalStore } from './auth.js';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const addUserRecord = async (currentUser, recordId) => {
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    return new Promise((resolve) => {
+      const originalRequest = error.config
+      const refreshToken = JSON.parse(sessionStorage.getItem('user')).refresh_token;
+      if (
+        error.response &&
+        error.response.status == 401 &&
+        error.config && !error.config.__isRetryRequest &&
+        refreshToken
+      ) {
+        originalRequest._retry = true;
+
+        const response = fetch(`${API_URL}/refresh`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${refreshToken}`,
+          },
+        })
+        .then((res) => res.json())
+        .then((res) => {
+          sessionStorage.setItem('user', res.data);
+          return axios(originalRequest);
+        });
+        resolve(response);
+      }
+
+      return Promise.reject(error);
+    });
+  }
+);
+
+export const addUserRecord = async (recordId) => {
   try {
     const response = await axios.post(
       `${API_URL}/record/add/${recordId}`,
       {},
-      { headers: getHeaders(currentUser) },
+      { headers: getHeaders() },
     );
     return response.data;
   } catch (e) {
@@ -31,12 +66,12 @@ export const fetchRecords = async (searchText = '') => {
   }
 };
 
-export const fetchUserRecords = async (currentUser, searchText) => {
+export const fetchUserRecords = async (searchText) => {
   try {
     const response = await axios.get(
       `${API_URL}/record/user`,
       {
-        headers: getHeaders(currentUser),
+        headers: getHeaders(),
         params: { text: searchText },
       },
     );
@@ -47,12 +82,12 @@ export const fetchUserRecords = async (currentUser, searchText) => {
   }
 };
 
-export const findRecord = async (currentUser, recordData) => {
+export const findRecord = async (recordData) => {
   try {
     const response = await axios.get(
       `${API_URL}/record/find`,
       {
-        headers: currentUser,
+        headers: getHeaders(),
         params: { ...recordData },
       },
     )
@@ -76,9 +111,9 @@ export const login = async (username, password) => {
   }
 };
 
-export const logout = async (currentUser) => {
+export const logout = async () => {
   try {
-    const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders(currentUser)});
+    const response = await axios.post(`${API_URL}/logout`, {}, { headers: getHeaders()});
     removeUserFromLocalStore();
     return response.data;
   } catch (e) {
@@ -87,12 +122,12 @@ export const logout = async (currentUser) => {
   }
 };
 
-export const recordPost = async (currentUser, recordData) => {
+export const recordPost = async (recordData) => {
   try {
     const response = await axios.post(
       `${API_URL}/record`,
       { ...recordData },
-      { headers: getHeaders(currentUser) },
+      { headers: getHeaders() },
     );
     return response.data;
   } catch (e) {
@@ -115,7 +150,8 @@ export const signUp = async (username, email, password) => {
   }
 };
 
-const getHeaders = (currentUser) => {
+const getHeaders = () => {
+  const currentUser = JSON.parse(sessionStorage.getItem('user'));
   if (currentUser && currentUser.access_token) {
     return { Authorization: `Bearer ${currentUser.access_token}`};
   } else {

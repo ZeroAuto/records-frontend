@@ -33,7 +33,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
         name: formState.name,
         artist: formState.artist,
       };
-      const record = await findRecord(currentUser, recordData);
+      const record = await findRecord(recordData);
       setSelectedRecord(record);
       console.table(record);
     }
@@ -45,7 +45,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   }
   const handleAddRecord = async () => {
     try {
-      await addUserRecord(currentUser, selectedRecord.id);
+      await addUserRecord(selectedRecord.id);
     } catch (e) {
       console.log(e);
     } finally {
@@ -53,7 +53,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
     }
   };
   const handleSubmit = async () => {
-    const record = await recordPost(currentUser, formState);
+    const record = await recordPost(formState);
     if (record) {
       console.log('record successfully created');
       closeModal();

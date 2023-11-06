@@ -30,7 +30,7 @@ const TopNav = () => {
                   Signed in as: <b>{currentUser.name}</b>
                 </Navbar.Text>
                 <Nav.Link onClick={async () => {
-                  await logout(currentUser);
+                  await logout();
                   setCurrentUser();
                 }}>
                   Logout
