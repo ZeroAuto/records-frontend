@@ -9,7 +9,7 @@ import { AppContext } from './AppContext'
 import { addUserToLocalStore } from '../utils/auth.js';
 import { login } from '../utils/server.js';
 
-const LoginModal = ({show, onHandleClose}) => {
+const UserModal = ({show, onHandleClose}) => {
   const initialState = Object.freeze({
     username: '',
     password: '',
@@ -84,4 +84,4 @@ const LoginModal = ({show, onHandleClose}) => {
   );
 }
 
-export default LoginModal;
+export default UserModal;

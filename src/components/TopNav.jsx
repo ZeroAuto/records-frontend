@@ -7,17 +7,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import { AppContext } from './AppContext.jsx';
 import { logout } from '../utils/server.js';
 
-import LoginModal from './LoginModal.jsx';
+import UserModal from './UserModal.jsx';
 
 const TopNav = () => {
-  const [loginModalShown, setShowLoginModal] = useState(false);
+  const [loginModalShown, setShowUserModal] = useState(false);
   const [currentUser, setCurrentUser] = useContext(AppContext);
 
   return (
     <div>
-      <LoginModal
+      <UserModal
         show={loginModalShown}
-        onHandleClose={() => setShowLoginModal(false)}
+        onHandleClose={() => setShowUserModal(false)}
       />
       <Navbar className="bg-body-tertiary">
         <Container>
@@ -37,12 +37,22 @@ const TopNav = () => {
                 </Nav.Link>
               </Fragment>
               :
-              <Nav.Link
-                href="#"
-                onClick={() => {
-                  setShowLoginModal(true)
-                }}
-              >Sign In</Nav.Link>
+              <Fragment>
+                <Nav.Link
+                  href="#"
+                  onClick={() => {
+                    setShowUserModal(true)
+                  }}
+                >
+                  Sign Up
+                </Nav.Link>
+                <Nav.Link
+                  href="#"
+                  onClick={() => {
+                    setShowUserModal(true)
+                  }}
+                >Log In</Nav.Link>
+              </Fragment>
             }
           </Navbar.Collapse>
         </Container>
