@@ -136,13 +136,12 @@ export const recordPost = async (recordData) => {
   }
 }
 
-export const signUp = async (username, email, password) => {
+export const createUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/signup`, {
-      username,
-      email,
-      password,
-    });
+    const response = await axios.post(
+      `${API_URL}/signup`,
+      { ...userData },
+    );
     return response.data;
   } catch (e) {
     console.log(e);

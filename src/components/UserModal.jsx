@@ -7,17 +7,25 @@ import Modal from 'react-bootstrap/Modal';
 import { AppContext } from './AppContext'
 
 import { addUserToLocalStore } from '../utils/auth.js';
-import { login } from '../utils/server.js';
+import { login, createUser } from '../utils/server.js';
 
 const UserModal = ({show, onHandleClose, signup = false}) => {
   const initialState = Object.freeze({
+    name: '',
     username: '',
     password: '',
+    email: '',
   })
   const [, setCurrentUser] = useContext(AppContext);
   const [formState, setUserInfo] = useState(initialState);
-  const handleLogin = async () => {
-    const user = await login(formState.username, formState.password);
+  const handleSubmit = async () => {
+    let user;
+    if (signup) {
+      user = await createUser(formState);
+    } else {
+      user = await login(formState.username, formState.password);
+    }
+
     if (user) {
       console.log('login successful');
       addUserToLocalStore(user);
@@ -46,17 +54,47 @@ const UserModal = ({show, onHandleClose, signup = false}) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
+          {signup ?
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="John Smith"
+                id="name"
+                value={formState.name}
+                onChange={handleFormChange}
+                autoFocus
+              />
+            </Form.Group>
+            :
+            null
+          }
           <Form.Group className="mb-3">
-            <Form.Label>Email or Username</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="name@example.com"
+              type="username"
+              placeholder="username"
               id="username"
               value={formState.username}
               onChange={handleFormChange}
               autoFocus
             />
           </Form.Group>
+          {signup ?
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                id="email"
+                value={formState.email}
+                onChange={handleFormChange}
+                autoFocus
+              />
+            </Form.Group>
+            :
+            null
+          }
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -75,9 +113,9 @@ const UserModal = ({show, onHandleClose, signup = false}) => {
           Close
         </Button>
         <Button variant="primary" onClick={() => {
-          handleLogin();
+          handleSubmit();
         }}>
-          Login
+          { signup ? 'Sign Up' : 'Log In'}
         </Button>
       </Modal.Footer>
     </Modal>

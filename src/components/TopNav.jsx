@@ -38,11 +38,11 @@ const TopNav = () => {
           <Navbar.Collapse className="justify-content-end">
             {currentUser ?
               <Fragment>
-                <Navbar.Text className="p-2">
+                <Navbar.Text className="p-1">
                   Signed in as: <b>{currentUser.name}</b>
                 </Navbar.Text>
                 <Nav.Link
-                  className="p-2"
+                  className="p-1"
                   onClick={async () => {
                     await logout();
                     setCurrentUser();
@@ -54,7 +54,7 @@ const TopNav = () => {
               :
               <Fragment>
                 <Nav.Link
-                  className="p-2"
+                  className="p-1"
                   href="#"
                   onClick={() => {
                     openSignupModal();
@@ -63,7 +63,7 @@ const TopNav = () => {
                   Sign Up
                 </Nav.Link>
                 <Nav.Link
-                  className="p-2"
+                  className="p-1"
                   href="#"
                   onClick={() => {
                     openLoginModal();
