@@ -9,7 +9,7 @@ import { AppContext } from './AppContext'
 import { addUserToLocalStore } from '../utils/auth.js';
 import { login } from '../utils/server.js';
 
-const UserModal = ({show, onHandleClose}) => {
+const UserModal = ({show, onHandleClose, signup = false}) => {
   const initialState = Object.freeze({
     username: '',
     password: '',

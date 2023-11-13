@@ -10,14 +10,26 @@ import { logout } from '../utils/server.js';
 import UserModal from './UserModal.jsx';
 
 const TopNav = () => {
-  const [loginModalShown, setShowUserModal] = useState(false);
+  const [userModalShown, setShowUserModal] = useState(false);
+  const [signup, setSignup] = useState(false);
   const [currentUser, setCurrentUser] = useContext(AppContext);
+
+  const openSignupModal = () => {
+    setSignup(true);
+    setShowUserModal(true);
+  }
+
+  const openLoginModal = () => {
+    setSignup(false);
+    setShowUserModal(true);
+  }
 
   return (
     <div>
       <UserModal
-        show={loginModalShown}
+        show={userModalShown}
         onHandleClose={() => setShowUserModal(false)}
+        signup={signup}
       />
       <Navbar className="bg-body-tertiary">
         <Container>
@@ -26,30 +38,35 @@ const TopNav = () => {
           <Navbar.Collapse className="justify-content-end">
             {currentUser ?
               <Fragment>
-                <Navbar.Text>
+                <Navbar.Text className="p-2">
                   Signed in as: <b>{currentUser.name}</b>
                 </Navbar.Text>
-                <Nav.Link onClick={async () => {
-                  await logout();
-                  setCurrentUser();
-                }}>
-                  Logout
+                <Nav.Link
+                  className="p-2"
+                  onClick={async () => {
+                    await logout();
+                    setCurrentUser();
+                  }
+                }>
+                  logout
                 </Nav.Link>
               </Fragment>
               :
               <Fragment>
                 <Nav.Link
+                  className="p-2"
                   href="#"
                   onClick={() => {
-                    setShowUserModal(true)
+                    openSignupModal();
                   }}
                 >
                   Sign Up
                 </Nav.Link>
                 <Nav.Link
+                  className="p-2"
                   href="#"
                   onClick={() => {
-                    setShowUserModal(true)
+                    openLoginModal();
                   }}
                 >Log In</Nav.Link>
               </Fragment>
