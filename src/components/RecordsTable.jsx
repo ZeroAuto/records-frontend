@@ -4,16 +4,32 @@ import { AppContext } from './AppContext';
 import DataTable from './DataTable';
 
 const RecordsTable = ({searchText = ''}) => {
+  const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [currentUser] = useContext(AppContext);
 
   useEffect(() => {
+    let debounceDelay;
+    initialLoad ? debounceDelay = 0 : debounceDelay = 250;
     const getData = setTimeout(() => {
       loadRecords();
-    }, 500);
+      if (!initialLoad) { setInitialLoad(false) }
+    }, debounceDelay);
     return () => clearTimeout(getData);
   }, [searchText, currentUser]);
+
+
+  // TODO use this pattern with the eventbus that you are going to add
+  useEffect(() =>{
+    const handleRandomClick = () => {
+      console.log('a random click happened randomly');
+    }
+    document.addEventListener('click', handleRandomClick);
+    return () => {
+      document.removeEventListener('click', handleRandomClick);
+    }
+  }, []);
 
   const tableHeaders = [
     {
