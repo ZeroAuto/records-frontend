@@ -21,15 +21,15 @@ const RecordsTable = ({searchText = ''}) => {
 
 
   // TODO use this pattern with the eventbus that you are going to add
-  useEffect(() =>{
-    const handleRandomClick = () => {
-      console.log('a random click happened randomly');
-    }
-    document.addEventListener('click', handleRandomClick);
-    return () => {
-      document.removeEventListener('click', handleRandomClick);
-    }
-  }, []);
+  // useEffect(() =>{
+  //   const handleRandomClick = () => {
+  //     console.log('a random click happened randomly');
+  //   }
+  //   document.addEventListener('click', handleRandomClick);
+  //   return () => {
+  //     document.removeEventListener('click', handleRandomClick);
+  //   }
+  // }, []);
 
   const tableHeaders = [
     {
