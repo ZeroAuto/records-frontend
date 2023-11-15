@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { AppContext } from './AppContext'
 
+import { dispatch } from '../utils/eventbus.js';
 import { addUserRecord, findRecord, recordPost } from '../utils/server.js';
 
 const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
@@ -46,6 +47,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   const handleAddRecord = async () => {
     try {
       await addUserRecord(selectedRecord.id);
+      dispatch('reloadRecords');
     } catch (e) {
       console.log(e);
     } finally {
@@ -54,6 +56,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   };
   const handleSubmit = async () => {
     const record = await recordPost(formState);
+    dispatch('reloadRecords');
     if (record) {
       console.log('record successfully created');
       closeModal();

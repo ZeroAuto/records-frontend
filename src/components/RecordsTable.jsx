@@ -3,6 +3,8 @@ import { fetchRecords, fetchUserRecords } from '../utils/server.js';
 import { AppContext } from './AppContext';
 import DataTable from './DataTable';
 
+import { on, remove } from '../utils/eventbus.js'
+
 const RecordsTable = ({searchText = ''}) => {
   const [initialLoad, setInitialLoad] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,15 +23,12 @@ const RecordsTable = ({searchText = ''}) => {
 
 
   // TODO use this pattern with the eventbus that you are going to add
-  // useEffect(() =>{
-  //   const handleRandomClick = () => {
-  //     console.log('a random click happened randomly');
-  //   }
-  //   document.addEventListener('click', handleRandomClick);
-  //   return () => {
-  //     document.removeEventListener('click', handleRandomClick);
-  //   }
-  // }, []);
+  useEffect(() =>{
+    on('reloadRecords', () => loadRecords());
+    return () => {
+      remove('reloadRecords', () => loadRecords());
+    }
+  }, []);
 
   const tableHeaders = [
     {
