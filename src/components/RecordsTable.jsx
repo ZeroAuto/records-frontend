@@ -32,24 +32,24 @@ const RecordsTable = ({searchText = ''}) => {
 
   const tableHeaders = [
     {
-      name: 'artist_name',
-      label: 'Artist',
-      sortable: true,
+      dataField: 'artist_name',
+      text: 'Artist',
+      sort: true,
     },
     {
-      name: 'name',
-      label: 'Album',
-      sortable: true,
+      dataField: 'name',
+      text: 'Album',
+      sort: true,
     },
     {
-      name: 'year',
-      label: 'Year',
-      sortable: true,
+      dataField: 'year',
+      text: 'Year',
+      sort: true,
     },
     {
-      name: 'format',
-      label: 'Format',
-      sortable: true,
+      dataField: 'format',
+      text: 'Format',
+      sort: true,
     },
   ]
 

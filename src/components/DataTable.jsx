@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Spinner from 'react-bootstrap/Spinner';
-import Table from 'react-bootstrap/Table';
+// import Table from 'react-bootstrap/Table';
+import BootstrapTable from 'react-bootstrap-table-next';
 
 const DataTable = ({data, loading, tableHeaders}) => {
   return (
@@ -11,24 +12,7 @@ const DataTable = ({data, loading, tableHeaders}) => {
           <span className="visually-hidden">Loading...</span>
         </Spinner>
         :
-        <Table>
-          <thead>
-            <tr>
-              {tableHeaders.map((header, index) =>
-                <th key={index}>{header.label}</th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((dataItem, index) =>
-              <tr key={`body-${index}`}>
-                {tableHeaders.map((header) =>
-                  <td key={`${header.name}-${index}`}>{dataItem[header.name]}</td>
-                )}
-              </tr>
-            )}
-          </tbody>
-        </Table>
+        <BootstrapTable keyField="id" data={data} columns={tableHeaders} />
       }
     </div>
   )

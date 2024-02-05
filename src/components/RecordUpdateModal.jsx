@@ -80,7 +80,7 @@ const RecordUpdateMopdal = ({show, onHandleClose, isEdit = false}) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Add Record</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {Object.keys(selectedRecord).length > 0 ?
